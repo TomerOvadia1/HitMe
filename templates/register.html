@@ -1,0 +1,111 @@
+{% extends "formLayout.html" %}
+{% block content %}
+<form method="POST" action="">
+    <div class="text-center mb-4">
+        {{ form.hidden_tag() }}
+        <!-- image and top info -->
+        <div>
+            <a href="{{ url_for('home') }}">
+                <img class="mb-4" src="{{ url_for('static',filename='img/simpleLogo.png')}}" alt="logo image" width="82"
+                 height="82">
+            </a>
+        </div>
+        <h1 class="h3 mb-3 font-weight-normal">Register Today!</h1>
+        <p>Get your own playlist using our easy and<br> beautiful interface at <code>HitMe App</code> with just a click.
+        </p>
+        <!-- msg holder -->
+        <div >
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages: %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <!-- form data-->
+        <div class="form-label-group">
+            {{ form.username(class="form-control form-control-lg") }}
+
+            {% if form.username.errors %}
+                {{ form.username.label(class="form-control-label text-muted is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                        <span>{{  error }}</span>
+                    {%endfor%}
+                </div>
+            {% else %}
+                {{ form.username.label(class="form-control-label text-muted") }}
+            {% endif %}
+
+        </div>
+        <div class="form-label-group">
+            {{ form.email(class="form-control form-control-lg") }}
+
+            {% if form.email.errors %}
+                {{ form.email.label(class="form-control-label text-muted is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                        <span>{{  error }}</span>
+                    {%endfor%}
+                </div>
+            {% else %}
+                {{ form.email.label(class="form-control-label text-muted") }}
+            {% endif %}
+        </div>
+        <div class="form-label-group">
+            {{ form.birth_date(class="form-control form-control-lg") }}
+            {% if form.birth_date.errors %}
+                {{ form.birth_date.label(class="form-control-label text-muted is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.birth_date.errors %}
+                        <span>{{  error }}</span>
+                    {%endfor%}
+                </div>
+            {% else %}
+                {{ form.birth_date.label(class="form-control-label text-muted") }}
+            {% endif %}
+        </div>
+        <div class="form-label-group">
+            {{ form.password(class="form-control form-control-lg") }}
+            {% if form.password.errors %}
+                {{ form.password.label(class="form-control-label text-muted is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                        <span>{{  error }}</span>
+                    {%endfor%}
+                </div>
+            {% else %}
+                {{ form.password.label(class="form-control-label text-muted") }}
+            {% endif %}
+        </div>
+        <div class="form-label-group">
+            {{ form.confirm_password(class="form-control form-control-lg") }}
+            {% if form.confirm_password.errors %}
+                {{ form.confirm_password.label(class="form-control-label text-muted is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.confirm_password.errors %}
+                        <span>{{  error }}</span>
+                    {%endfor%}
+                </div>
+            {% else %}
+                {{ form.confirm_password.label(class="form-control-label text-muted") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+        </div>
+        <div class="border-top pt-3 text-center">
+            <small class=text-muted">
+                Already Have An Account?<a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+            </small>
+        </div>
+
+    </div>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2020</p>
+
+</form>
+{% endblock content %}
+

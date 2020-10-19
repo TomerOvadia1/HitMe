@@ -1,0 +1,78 @@
+{% extends "homeLayout.html" %}
+{% block content %}
+<!-- main frame -->
+<div class="jumbotron mt-3">
+    <h1 class="display-4">Create A Playlist!</h1>
+    <p class="lead">Simply choose the playlist type and your mood and hit the GO button
+        to get your own customize playlist !</p>
+</div>
+
+<form class="container " method="get" action="{{ url_for('playlist_create') }}">
+    <p class="pt-5 text-muted">Choose your playlist type</p>
+    <!-- If a massage is required -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages: %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div id="types" class="btn-group" role="group" aria-label="type-group">
+        <button id="running" type="button" onclick="setType(this,'types','type')" class="btn btn-secondary">Running
+        </button>
+        <button id="studying" type="button" onclick="setType(this,'types','type')" class="btn btn-secondary">
+            Studying
+        </button>
+        <button id="dancing" type="button" onclick="setType(this,'types','type')" class="btn btn-secondary">
+            Dancing
+        </button>
+        <button id="driving" type="button" onclick="setType(this,'types','type')" class="btn btn-secondary">
+            Driving
+        </button>
+    </div>
+    <input type="hidden" id="type" name="type" value="">
+    <script>
+            function setType(selectedButton, div_name, hidden_name){
+                var div = document.getElementById(div_name);
+                var divChildren = div.getElementsByTagName("button")
+                for (button of divChildren) {
+                    if ( button.classList.contains('groupButton') ){
+                        button.classList.remove('groupButton')
+                    }
+                }
+                selectedButton.classList.add('groupButton');
+                document.getElementById(hidden_name).value = selectedButton.id;
+            }
+
+            function btnLoading(){
+                document.getElementById('loadingBtn').removeAttribute('hidden');
+                document.getElementById('submitBtn').setAttribute('hidden',"");
+            }
+
+
+    </script>
+    <hr>
+    <p class="my-4 text-muted">Choose your mood</p>
+    <div id="moods" class="btn-group" role="group" aria-label="type-group">
+        <button id="chill" type="button" onclick="setType(this,'moods','mood')" class="btn btn-secondary">Chill</button>
+        <button id="neutral" type="button" onclick="setType(this,'moods','mood')" class="btn btn-secondary">
+            Neutral
+        </button>
+        <button id="hype" type="button" onclick="setType(this,'moods','mood')" class="btn btn-secondary">Hype
+        </button>
+    </div>
+    <hr>
+    <input type="hidden" id="mood" name="mood" value="">
+
+    <div class="pb-5 my-4">
+        <button id="submitBtn" onclick="btnLoading()" type="submit" class="btn btn-primary">Hit Me !</button>
+        <button hidden id="loadingBtn" class="btn btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    </div>
+
+</form>
+{% endblock content %}

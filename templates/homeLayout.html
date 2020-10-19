@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{ url_for('static',filename='img/simpleLogo.png')}}">
+    {% if title %}
+    <title>HitMe - {{title}}</title>
+    {% else %}
+    <title>HitMe</title>
+    {% endif %}
+    <!--    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">-->
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{{ url_for('static',filename='css/cover.css')}}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class=" d-flex mx-auto flex-column">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="{{ url_for('home')}}">
+            <img class="navbar-brand" src="{{ url_for('static',filename='img/simpleLogoHome2.svg')}}"
+                 width="260" height="78"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static',filename='img/icons/home.svg')}}" width="15" height="15">
+                        Home
+                    </a>
+                </li>
+                {% if session.logged_in %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('user') }}">
+                        <img src="{{ url_for('static',filename='img/icons/user.svg')}}" width="15" height="15">
+                        {{ session.username }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url_for('logout') }}">
+                        <img src="{{ url_for('static',filename='img/icons/sign-out-option.svg')}}" width="15"
+                             height="15">
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">
+                        <img src="{{ url_for('static',filename='img/icons/sign-out-option.svg')}}" width="15"
+                             height="15">
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url_for('register') }}">
+                        <img src="{{ url_for('static',filename='img/icons/signup.svg')}}" width="17" height="17">
+                        Sign Up
+                    </a>
+                </li>
+
+                {% endif %}
+                <li class="nav-item my-2 my-sm-0">
+                    <a class="nav-link disabled" href="#" tabindex="-1" >About</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+    <!-- Content -->
+    <div class="text-center ">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+</div>
+<footer class="mastfoot mt-auto my-6">
+    <div class="inner text-center text-muted">
+        <p>© HitMe 2019-2020 </p>
+    </div>
+</footer>
+<!-- Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

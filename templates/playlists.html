@@ -1,0 +1,104 @@
+{% extends "homeLayout.html" %}
+{% block content %}
+<script>
+    function btnLoading(){
+                document.getElementById('loadingBtn').removeAttribute('hidden');
+                document.getElementById('submitBtn').setAttribute('hidden',"");
+            }
+
+</script>
+<form method="POST" action="#">
+    <div class="jumbotron mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages: %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% if view_mode %}
+        <h1 class="display-4"> {{ playlist.name }}</h1>
+        {% else %}
+        <h1 class="display-4"> Your Playlist</h1>
+        {% endif %}
+
+        <h6>Type: {{ playlist.ptype }}</h6>
+        <h6>Mood: {{ playlist.mood }}</h6>
+        {% if not view_mode %}
+        <div class="my-4">
+            <div class="d-flex justify-content-center">
+
+                <input type="text" class="form-control text-center mb-4 playlist-name"
+                       id="playlist_name" name="playlist_name" value="{{ playlist.name }}" maxlength="20"/>
+            </div>
+
+            <button id="submitBtn" onclick="btnLoading()" type="submit" class="btn btn-success">
+                Save
+            </button>
+
+            <button hidden id="loadingBtn" class="btn btn-success" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="row pt-5 ">
+            <div class="list-group " id="list-tab" role="tablist">
+                {% for song in playlist.songs %}
+                <a class="list-group-item list-group-item-action " id="song-{{ loop.index }}" data-toggle="list"
+                   href="#list-{{ loop.index }}"
+                   role="tab">
+
+                    <strong>{{ loop.index }}. </strong>{{ song.title }}
+                    <!--                Song {{ loop.index }}-->
+                </a>
+                {% endfor %}
+            </div>
+            <div class="tab-content px-md-5 bg-secondary" id="nav-tabContent">
+                {% for song in playlist.songs %}
+                <div class="tab-pane fade show " id="list-{{ loop.index }}" role="tabpanel">
+                    <h6 class="display-4 my-4">Song</h6>
+                    {{ song.title }}
+                    <hr>
+                    <h6 class="display-4 my-4">Album</h6>
+                    {{ song.album_name }}
+                    <hr>
+                    <h6 class="display-4 my-4">Artist</h6>
+                    {{ song.artist_name }}
+
+                    {% if song.year != 0 %}
+                    <hr>
+
+                    <h6 class="display-4 my-4">Year</h6>
+                    {{ song.year }}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <input type="hidden" id="songs_num" name="songs_num" value="{{ playlist.songs|count }}">
+            <script>
+                if(document.getElementById("song-1")) {
+                    document.getElementById('song-1').classList.add('active');
+                    document.getElementById('list-1').classList.add('active');
+                }
+
+
+            </script>
+        </div>
+    </div>
+
+    <input hidden id="jsonPlaylist" name="jsonPlaylist">
+
+    <script>
+        var playlistJson = '{{ playlist.jsonify()|tojson|safe }}';
+        document.getElementById('jsonPlaylist').value = playlistJson
+        console.log(playlistJson)
+
+    </script>
+</form>
+{% endblock content %}

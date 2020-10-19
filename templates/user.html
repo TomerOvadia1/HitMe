@@ -1,0 +1,63 @@
+{% extends "homeLayout.html" %}
+{% block content %}
+<script>
+    function setPlaylistId(id){
+        document.getElementById('selected_playlist').value = id;
+        document.getElementById('selected_playlist').value = id;
+
+        document.getElementById('loadingBtn-'+id).removeAttribute('hidden');
+        document.getElementById('btn-'+id).setAttribute('hidden',"");
+    }
+
+</script>
+<form action="" method="post" class="header-shade">
+    <div class="text-white pt-3 pb-3 header-img">
+        <!--        <img src ="{{ url_for('static',filename='img/header.jpg') }}">-->
+        <div class="pl-3 pr-3 header-style">
+            <h6 class="display-2">Hello, {{ session.username }}!</h6>
+            <h6 class="display-4">Check out your playlists</h6>
+        </div>
+    </div>
+    <div class="container pt-3">
+        {% if not playlists|length %}
+        <img src="{{ url_for('static',filename='img/empty_playlists.svg') }}">
+        {% else %}
+        {% for playlist in playlists %}
+        {% if (loop.index)%3 == 1 %}
+        <div class="card-deck mb-3 text-center">
+            {% endif %}
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ playlist.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <!--                <h5 class="card-title">Type :-->
+                    <!--                </h5>-->
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <!--                        <li>XX Songs</li>-->
+                        <li><strong>Playlist Mood:</strong><br>
+                            {{ playlist.mood }}
+                        </li>
+                        <li><strong>Playlist Type:</strong><br>
+                            {{ playlist.ptype }}
+                        </li>
+                    </ul>
+                    <button id="btn-{{ playlist.id }}" type="submit" class="btn btn-lg btn-block btn-outline-primary"
+                            onclick="setPlaylistId({{ playlist.id }})">
+                        View Playlist
+                    </button>
+                    <div hidden id="loadingBtn-{{ playlist.id }}" class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            {% if (loop.index)%3==0 or (loop.index)==playlists|length %}
+        </div>
+        {%endif%}
+        {% endfor %}
+    </div>
+
+    {% endif %}
+    <input hidden id="selected_playlist" name="selected_playlist" value="">
+</form>
+{% endblock content %}
